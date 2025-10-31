@@ -15,9 +15,7 @@
         width: 100vw;
         height: 100vh;
         overflow: hidden;
-        background: #000;
       }
-      /* 画像がなかったら後でJSで赤にする */
       #title-img {
         position: absolute;
         inset: 0;
@@ -36,18 +34,21 @@
   </head>
   <body>
     <div id="wrap">
-      <!-- ここ！ファイル名を実際に上げたやつに合わせる -->
-      <img id="title-img" src="IRIS-OUT_1536.PNG" alt="title" />
+      <!-- ここを“生URL”にした -->
+      <img
+        id="title-img"
+        src="https://raw.githubusercontent.com/kou2524/Chainsaw-Man/main/title.png"
+        alt="title"
+      />
 
       <pyxel-run root="." name="main.py"></pyxel-run>
     </div>
 
-    <audio id="bgm" src="JANE_DOE_8bit.mp3" loop></audio>
+    <audio id="bgm" src="bgm.mp3" loop></audio>
     <script>
-      // 画像が本当に読めてるかチェック
+      // 読めなかったら赤にして知らせる
       const img = document.getElementById("title-img");
       img.addEventListener("error", function () {
-        // 読めなかったときは真っ赤にして気づけるようにする
         img.style.background = "red";
       });
 
