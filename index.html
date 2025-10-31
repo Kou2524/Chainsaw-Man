@@ -16,6 +16,7 @@
         height: 100vh;
         overflow: hidden;
       }
+      /* 背景画像を全画面に敷く */
       #title-img {
         position: absolute;
         inset: 0;
@@ -25,6 +26,7 @@
         image-rendering: pixelated;
         background: #000;
       }
+      /* Pyxelのcanvasを上に重ねる */
       pyxel-run {
         position: absolute;
         inset: 0;
@@ -34,19 +36,20 @@
   </head>
   <body>
     <div id="wrap">
-      <!-- ここを“生URL”にした -->
+      <!-- 👇 ここが“今見えてるやつ” ＋ キャッシュ殺し -->
       <img
         id="title-img"
-        src="https://raw.githubusercontent.com/kou2524/Chainsaw-Man/main/title.png"
+        src="https://raw.githubusercontent.com/kou2524/Chainsaw-Man/main/title.png?v=2"
         alt="title"
       />
 
       <pyxel-run root="." name="main.py"></pyxel-run>
     </div>
 
+    <!-- BGM -->
     <audio id="bgm" src="bgm.mp3" loop></audio>
     <script>
-      // 読めなかったら赤にして知らせる
+      // 読み込み失敗したら赤にする（まだ出ないときの確認用）
       const img = document.getElementById("title-img");
       img.addEventListener("error", function () {
         img.style.background = "red";
