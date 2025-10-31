@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>Chainsaw-Man Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.jsdelivr.net/gh/kitao/pyxel/wasm/pyxel.js"></script>
+    <style>
+      body {
+        margin: 0;
+        background: #000;
+      }
+      #wrap {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+      }
+      /* 背景画像を全画面に敷く */
+      #title-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        image-rendering: pixelated;
+        background: #000;
+      }
+      /* Pyxelのcanvasを上に重ねる */
+      pyxel-run {
+        position: absolute;
+        inset: 0;
+        margin: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wrap">
+      <!-- 👇 ここが“今見えてるやつ” ＋ キャッシュ殺し -->
+      <img
+        id="title-img"
+        src="https://raw.githubusercontent.com/kou2524/Chainsaw-Man/main/title.png?v=2"
+        alt="title"
+      />
+
+      <pyxel-run root="." name="main.py"></pyxel-run>
+    </div>
+
+    <!-- BGM -->
+    <audio id="bgm" src="bgm.mp3" loop></audio>
+    <script>
+      // 読み込み失敗したら赤にする（まだ出ないときの確認用）
+      const img = document.getElementById("title-img");
+      img.addEventListener("error", function () {
+        img.style.background = "red";
+      });
+
+      function tryPlay() {
+        const a = document.getElementById("bgm");
+        if (a && a.paused) {
+          a.play().catch(() => {});
+        }
+      }
+      document.addEventListener("touchstart", tryPlay, { once: true });
+      document.addEventListener("click", tryPlay, { once: true });
+    </script>
+  </body>
+</html>
