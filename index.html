@@ -2,17 +2,50 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-    <title>Chainsaw-Man Title Test</title>
+    <title>Chainsaw-Man Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://cdn.jsdelivr.net/gh/kitao/pyxel/wasm/pyxel.js"></script>
+    <style>
+      body {
+        margin: 0;
+        background: #000;
+      }
+      /* 画面全体を包むやつ */
+      #wrap {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        background: #000;
+      }
+      /* 背景のPNG */
+      #title-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain; /* 画像が潰れないように */
+        image-rendering: pixelated; /* ドットっぽく見せる */
+      }
+      /* Pyxelを乗せる場所（pyxel.jsがここにcanvasを作る） */
+      pyxel-run {
+        position: absolute;
+        inset: 0;
+        margin: auto;
+      }
+    </style>
   </head>
-  <body style="margin:0; background:#000;">
-    <!-- ここでmp3を読み込む。ファイル名は必ず同じにする -->
+  <body>
+    <div id="wrap">
+      <!-- 背景画像（GitHubに上げたやつと同じ名前にする） -->
+      <img id="title-img" src="IRIS-OUT_1536.png" alt="title" />
+
+      <!-- Pyxel本体。rootはこのフォルダ -->
+      <pyxel-run root="." name="main.py"></pyxel-run>
+    </div>
+
+    <!-- BGM（タップで再生） -->
     <audio id="bgm" src="JANE_DOE_8bit.mp3" loop></audio>
-
-    <!-- Pyxelを起動する。rootはこのフォルダ直下 -->
-    <pyxel-run root="." name="main.py"></pyxel-run>
-
     <script>
       function tryPlay() {
         const a = document.getElementById("bgm");
