@@ -10,6 +10,6 @@ def draw():
     # ただし、pyxelは本来は毎回clsする設計なので、
     # 文字だけ出したいときは、背景を0じゃなくて“色付き”にしてもいい
     pyxel.text(20, 10, "CHAINSAW-MAN", 7)
-    pyxel.text(10, 100, "TAP TO START", 10)
+    pyxel.text(10, 100, "", 10)
 
 pyxel.run(update, draw)
