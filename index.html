@@ -10,7 +10,6 @@
         margin: 0;
         background: #000;
       }
-      /* 画面全体を包むやつ */
       #wrap {
         position: relative;
         width: 100vw;
@@ -18,16 +17,16 @@
         overflow: hidden;
         background: #000;
       }
-      /* 背景のPNG */
+      /* 画像がなかったら後でJSで赤にする */
       #title-img {
         position: absolute;
         inset: 0;
         width: 100%;
         height: 100%;
-        object-fit: contain; /* 画像が潰れないように */
-        image-rendering: pixelated; /* ドットっぽく見せる */
+        object-fit: contain;
+        image-rendering: pixelated;
+        background: #000;
       }
-      /* Pyxelを乗せる場所（pyxel.jsがここにcanvasを作る） */
       pyxel-run {
         position: absolute;
         inset: 0;
@@ -37,16 +36,21 @@
   </head>
   <body>
     <div id="wrap">
-      <!-- 背景画像（GitHubに上げたやつと同じ名前にする） -->
-      <img id="title-img" src="IRIS-OUT_1536.png" alt="title" />
+      <!-- ここ！ファイル名を実際に上げたやつに合わせる -->
+      <img id="title-img" src="IRIS-OUT_1536.PNG" alt="title" />
 
-      <!-- Pyxel本体。rootはこのフォルダ -->
       <pyxel-run root="." name="main.py"></pyxel-run>
     </div>
 
-    <!-- BGM（タップで再生） -->
     <audio id="bgm" src="JANE_DOE_8bit.mp3" loop></audio>
     <script>
+      // 画像が本当に読めてるかチェック
+      const img = document.getElementById("title-img");
+      img.addEventListener("error", function () {
+        // 読めなかったときは真っ赤にして気づけるようにする
+        img.style.background = "red";
+      });
+
       function tryPlay() {
         const a = document.getElementById("bgm");
         if (a && a.paused) {
