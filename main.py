@@ -34,7 +34,7 @@ def draw():
         pyxel.text(x, 58, msg, 8)
 
     # 画面下にBGMガイド
-    hint = "ほんとうは　レゼが　ひょうじされる　はずでした"
+    hint = "Reze was not found :("
     x = (160 - len(hint)*4)//2
     pyxel.text(x, 110, hint, 7)
 
