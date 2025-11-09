@@ -34,7 +34,7 @@ def draw():
         pyxel.text(x, 58, msg, 8)
 
     # 画面下にBGMガイド
-    hint = "TAP PAGE TO PLAY BGM"
+    hint = "ほんとうは　レゼが　ひょうじされる　はずでした"
     x = (160 - len(hint)*4)//2
     pyxel.text(x, 110, hint, 7)
 
