@@ -4,70 +4,63 @@
     <meta charset="utf-8" />
     <title>Chainsaw-Man Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Pyxel.js -->
     <script src="https://cdn.jsdelivr.net/gh/kitao/pyxel/wasm/pyxel.js"></script>
     <style>
-      body {
+      html, body {
         margin: 0;
-        background: #000;
-      }
-      #wrap {
-        position: relative;
-        width: 100vw;
-        height: 100vh;
-        overflow: hidden;
-        background: #000;
-      }
-      /* 背景画像は全画面 */
-      #title-img {
-        position: absolute;
-        inset: 0;
-        width: 100%;
         height: 100%;
-        object-fit: contain;       /* 元サイズと比率を維持して表示 */
+        background: #000;
+      }
+      /* 画面中央にPyxelキャンバスをドット等倍拡大 */
+      #wrap {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        background: #000;
+      }
+      pyxel-run, canvas {
         image-rendering: pixelated;
       }
-      /* Pyxelは160x120で真ん中に置く。全画面にしない！ */
-      pyxel-run {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 160px;
-        height: 120px;
-        transform: translate(-50%, -50%);
-        z-index: 10;               /* 画像より前に出す */
+      /* “タップで開始”ガイド（任意） */
+      #hint {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: end center;
+        padding-bottom: 24px;
+        color: #bbb;
+        font: 14px/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        user-select: none;
+        pointer-events: none;
       }
     </style>
   </head>
   <body>
-    <div id="wrap">
-      <!-- さっき見えてたrawのURL。ブランチがmainじゃなかったらそこだけ変えて -->
-      <img
-        id="title-img"
-        src="https://raw.githubusercontent.com/kou2524/Chainsaw-Man/main/title.png"
-        alt="title"
-      />
+    <!-- BGM（自動再生しない）。最初のタップで再生 -->
+    <audio id="bgm" src="./bgm.mp3" loop preload="auto"></audio>
 
-      <!-- Pyxel本体（160x120で出る） -->
+    <div id="wrap">
+      <!-- 同じディレクトリに main.py / title.png / bgm.mp3 がある想定 -->
       <pyxel-run root="." name="main.py"></pyxel-run>
     </div>
 
-    <!-- BGM -->
-    <audio id="bgm" src="bgm.mp3" loop></audio>
-    <script>
-      // 読めなかったら赤にする
-      const img = document.getElementById("title-img");
-      img.addEventListener("error", function () {
-        img.style.background = "red";
-      });
+    <div id="hint">タップで開始</div>
 
-      function tryPlay() {
-        const a = document.getElementById("bgm");
-        if (a && a.paused) {
-          a.play().catch(() => {});
-        }
+    <script>
+      // 初回のタップ/クリックでBGM再生（ブラウザのオートプレイ制限対策）
+      function startBgmOnce() {
+        const audio = document.getElementById('bgm');
+        audio.play().catch(() => { /* サイレント失敗でOK */ });
+        document.removeEventListener('touchstart', startBgmOnce, {passive:true});
+        document.removeEventListener('mousedown', startBgmOnce);
+        // ガイド非表示
+        const hint = document.getElementById('hint');
+        if (hint) hint.style.display = 'none';
       }
-      document.addEventListener("touchstart", tryPlay, { once: true });
-      document.addEventListener("click", tryPlay, { once: true });
+      document.addEventListener('touchstart', startBgmOnce, {passive:true, once:true});
+      document.addEventListener('mousedown', startBgmOnce, {once:true});
     </script>
   </body>
 </html>
