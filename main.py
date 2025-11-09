@@ -7,7 +7,6 @@ def update():
     pass
 
 def draw():
-    # フレーム毎に色が変わる→動いてるのが一目でわかる
     pyxel.cls(pyxel.frame_count % 16)
     msg = "PYXEL OK"
     x = (160 - len(msg)*4)//2
